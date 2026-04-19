@@ -98,9 +98,9 @@ table tr:nth-child(even){background:var(--card);}
 .price-card.featured .price{color:#fff;}
 .price-card ul{list-style:none;margin:20px 0;text-align:left;}
 .price-card ul li{padding:8px 0;color:var(--subtext);font-size:.9rem;display:flex;align-items:center;gap:8px;}
-.price-card ul li::before{content:"âœ“";color:var(--accent);font-weight:700;}
+.price-card ul li::before{content:"";width:18px;height:18px;min-width:18px;border-radius:50%;background:var(--accent);flex-shrink:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");background-size:12px;background-repeat:no-repeat;background-position:center;}
 .price-card.featured ul li{color:rgba(255,255,255,.9);}
-.price-card.featured ul li::before{color:#fff;}
+.price-card.featured ul li::before{background:rgba(255,255,255,0.3);}
 /* TESTIMONIALS */
 .testimonial-wrap{position:relative;margin-top:50px;overflow:hidden;}
 .testimonial-track{display:flex;transition:transform .5s;}
@@ -478,42 +478,29 @@ footer{background:var(--card);border-top:1px solid var(--border);padding:50px 8%
       <h2 style="text-align:center;font-size:2rem;font-weight:800;margin-bottom:12px">Why <span style="color:var(--accent)">Choose Us</span></h2>
       <p style="text-align:center;opacity:0.65;margin-bottom:48px;font-size:1rem">Here's what sets us apart from the rest</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px">
-        
       <div class="why-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:all .3s">
-        <div style="width:44px;height:44px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
         </div>
-        <h4 style="margin:0 0 8px;font-size:1rem;font-weight:700">Skilled Artists</h4>
-        <p style="margin:0;font-size:0.88rem;opacity:0.75;line-height:1.6">Our stylists and beauticians are trained professionals with years of hands-on expertise.</p>
+        <h4 style="margin:0 0 8px;font-size:1rem;font-weight:700">Experienced Doctors</h4>
+        <p style="margin:0;font-size:0.88rem;opacity:0.75;line-height:1.6">Qualified dental surgeons with years of clinical expertise and advanced certifications.</p>
       </div>
       <div class="why-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:all .3s">
-        <div style="width:44px;height:44px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         </div>
-        <h4 style="margin:0 0 8px;font-size:1rem;font-weight:700">Premium Products</h4>
-        <p style="margin:0;font-size:0.88rem;opacity:0.75;line-height:1.6">We use only high-quality, skin-safe brands to ensure the best results every time.</p>
+        <h4 style="margin:0 0 8px;font-size:1rem;font-weight:700">Modern Technology</h4>
+        <p style="margin:0;font-size:0.88rem;opacity:0.75;line-height:1.6">Digital X-rays, laser dentistry, and the latest equipment for precise, painless treatment.</p>
       </div>
       <div class="why-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:all .3s">
-        <div style="width:44px;height:44px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
         </div>
-        <h4 style="margin:0 0 8px;font-size:1rem;font-weight:700">Hygienic Standards</h4>
-        <p style="margin:0;font-size:0.88rem;opacity:0.75;line-height:1.6">All tools and equipment are sanitized after every use — your safety is our priority.</p>
+        <h4 style="margin:0 0 8px;font-size:1rem;font-weight:700">Painless Procedures</h4>
+        <p style="margin:0;font-size:0.88rem;opacity:0.75;line-height:1.6">Advanced anesthesia techniques and gentle care for a comfortable experience every visit.</p>
       </div>
       <div class="why-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:all .3s">
-        <div style="width:44px;height:44px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
         </div>
-        <h4 style="margin:0 0 8px;font-size:1rem;font-weight:700">Wide Service Range</h4>
-        <p style="margin:0;font-size:0.88rem;opacity:0.75;line-height:1.6">From haircuts to full bridal packages, we offer comprehensive beauty solutions under one roof.</p>
-      </div>
-      <div class="why-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:all .3s">
-        <div style="width:44px;height:44px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <h4 style="margin:0 0 8px;font-size:1rem;font-weight:700">Personalized Care</h4>
-        <p style="margin:0;font-size:0.88rem;opacity:0.75;line-height:1.6">Every client receives a customized consultation to understand their specific needs and preferences.</p>
-      </div>
-      <div class="why-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:all .3s">
-        <div style="width:44px;height:44px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <h4 style="margin:0 0 8px;font-size:1rem;font-weight:700">Relaxing Ambience</h4>
-        <p style="margin:0;font-size:0.88rem;opacity:0.75;line-height:1.6">Our salon is designed for comfort — a calm, welcoming space where you can unwind completely.</p>
+        <h4 style="margin:0 0 8px;font-size:1rem;font-weight:700">Affordable Treatment</h4>
+        <p style="margin:0;font-size:0.88rem;opacity:0.75;line-height:1.6">Transparent pricing with flexible payment options and insurance support.</p>
       </div>
       </div>
     </div>
