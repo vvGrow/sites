@@ -1,0 +1,545 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YFC Gym — Your Fitness Club, Your Rules</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--black:#0F0F0F;--neon:#00FF88;--dark:#0a0a0a;--glow:0 0 20px rgba(0,255,136,0.3)}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:#c0c0c0;background:var(--dark);overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;font-weight:700}
+.section-title{font-size:clamp(1.8rem,4vw,2.8rem);text-align:center;margin-bottom:.5rem}
+.section-title span{color:var(--neon);text-shadow:var(--glow)}
+.section-sub{text-align:center;color:#666;max-width:550px;margin:0 auto 3rem;font-size:.95rem}
+section{padding:80px 5%}
+.container{max-width:1200px;margin:0 auto}
+.neon-line{width:50px;height:2px;background:var(--neon);margin:12px auto 0;box-shadow:var(--glow)}
+
+/* Nav */
+nav{position:fixed;top:0;width:100%;z-index:1000;padding:14px 5%;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,10,0.5);backdrop-filter:blur(25px);-webkit-backdrop-filter:blur(25px);border-bottom:1px solid rgba(0,255,136,0.08);transition:all .3s}
+nav.scrolled{background:rgba(10,10,10,0.95)}
+.logo{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;color:#fff}
+.logo span{color:var(--neon);text-shadow:var(--glow)}
+.nav-links{display:flex;gap:25px;list-style:none}
+.nav-links a{color:#888;text-decoration:none;font-size:.88rem;transition:color .3s;font-weight:500}
+.nav-links a:hover{color:var(--neon)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none}
+.hamburger span{width:22px;height:2px;background:var(--neon)}
+.mobile-menu{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(10,10,10,0.98);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:30px}
+.mobile-menu.active{display:flex}
+.mobile-menu a{color:var(--neon);font-size:1.3rem;text-decoration:none;font-family:'Space Grotesk',sans-serif}
+.mobile-close{position:absolute;top:20px;right:20px;background:none;border:none;color:var(--neon);font-size:2rem;cursor:pointer}
+
+/* Hero */
+.hero{height:100vh;position:relative;overflow:hidden}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1s}
+.hero-slide.active{opacity:1}
+.hero-slide::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,0.85),rgba(15,15,15,0.7));z-index:1}
+.hero-slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20px}
+.hero-content h1{font-size:clamp(2.5rem,7vw,5rem);color:#fff;line-height:1.1;margin-bottom:15px}
+.hero-content h1 span{color:var(--neon);text-shadow:0 0 30px rgba(0,255,136,0.5)}
+.hero-content p{font-size:1.1rem;color:#888;margin-bottom:30px;max-width:480px}
+.btn{display:inline-block;padding:14px 35px;background:var(--neon);color:var(--black);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;border-radius:50px;transition:all .3s;border:2px solid var(--neon)}
+.btn:hover{background:transparent;color:var(--neon);box-shadow:var(--glow)}
+.hero-dots{position:absolute;bottom:35px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:10px}
+.hero-dots span{width:35px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;cursor:pointer;transition:all .3s}
+.hero-dots span.active{background:var(--neon);box-shadow:var(--glow)}
+
+/* About */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+.about-img{position:relative;border-radius:20px;overflow:hidden}
+.about-img img{width:100%;height:420px;object-fit:cover;border-radius:20px}
+.about-img::after{content:'';position:absolute;inset:0;border:2px solid rgba(0,255,136,0.15);border-radius:20px;pointer-events:none}
+.about-text h2{font-size:2rem;margin-bottom:15px}
+.about-text h2 span{color:var(--neon);text-shadow:var(--glow)}
+.about-text p{color:#999;line-height:1.8;margin-bottom:12px}
+.cert-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.2);padding:10px 18px;border-radius:50px;margin-top:10px;font-size:.9rem;color:var(--neon)}
+
+/* Services */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.service-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:30px 22px;transition:all .3s}
+.service-card:hover{border-color:var(--neon);box-shadow:0 0 30px rgba(0,255,136,0.08)}
+.service-card .icon{font-size:2rem;margin-bottom:12px}
+.service-card h3{font-size:1.05rem;margin-bottom:8px;color:#fff}
+.service-card p{color:#777;font-size:.88rem;line-height:1.6}
+
+/* Transformations */
+.transform-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.transform-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:16px;overflow:hidden;transition:all .3s}
+.transform-card:hover{border-color:var(--neon)}
+.transform-imgs{display:grid;grid-template-columns:1fr 1fr;position:relative}
+.transform-imgs img{width:100%;height:250px;object-fit:cover}
+.transform-imgs::after{content:'→';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--neon);color:var(--black);width:35px;height:35px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
+.transform-card .info{padding:18px;text-align:center}
+.transform-card h4{color:var(--neon);font-size:.95rem}
+.transform-card p{color:#888;font-size:.85rem}
+
+/* Equipment */
+.equip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:15px}
+.equip-item{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:12px;padding:25px;text-align:center;transition:all .3s}
+.equip-item:hover{border-color:var(--neon)}
+.equip-item .icon{font-size:2rem;margin-bottom:10px}
+.equip-item h4{font-size:.95rem;color:#fff}
+
+/* Gallery */
+.gallery-tabs{display:flex;gap:10px;justify-content:center;margin-bottom:30px;flex-wrap:wrap}
+.gallery-tab{padding:10px 22px;border:1px solid rgba(255,255,255,0.08);border-radius:50px;cursor:pointer;font-size:.88rem;transition:all .3s;background:transparent;color:#888;font-family:'DM Sans',sans-serif}
+.gallery-tab.active,.gallery-tab:hover{background:var(--neon);border-color:var(--neon);color:var(--black)}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.gallery-grid img{width:100%;height:240px;object-fit:cover;border-radius:12px;transition:all .3s}
+.gallery-grid img:hover{transform:scale(1.02);box-shadow:0 0 20px rgba(0,255,136,0.1)}
+.gallery-content{display:none}
+.gallery-content.active{display:grid}
+
+/* Stats */
+.stats-section{background:rgba(0,255,136,0.03);border-top:1px solid rgba(0,255,136,0.15);border-bottom:1px solid rgba(0,255,136,0.15)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;text-align:center}
+.stat-item h3{font-size:clamp(2rem,5vw,3.2rem);color:var(--neon);text-shadow:var(--glow)}
+.stat-item p{color:#666;text-transform:uppercase;font-size:.8rem;letter-spacing:2px;margin-top:5px}
+
+/* Pricing */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.pricing-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:20px;padding:35px 25px;text-align:center;transition:all .3s}
+.pricing-card:hover,.pricing-card.neon{border-color:var(--neon);box-shadow:0 0 40px rgba(0,255,136,0.08)}
+.pricing-card.neon{position:relative}
+.pricing-card.neon::before{content:'⚡ POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--neon);color:var(--black);padding:5px 20px;border-radius:50px;font-size:.75rem;font-weight:700;font-family:'Space Grotesk',sans-serif}
+.pricing-card h3{font-size:1.2rem;margin-bottom:10px;color:#fff}
+.pricing-card .price{font-size:2.8rem;color:var(--neon);font-family:'Space Grotesk',sans-serif;margin-bottom:5px;text-shadow:var(--glow)}
+.pricing-card .period{color:#666;font-size:.85rem;margin-bottom:20px}
+.pricing-card ul{list-style:none;text-align:left;margin-bottom:25px}
+.pricing-card li{padding:8px 0;color:#aaa;font-size:.88rem;border-bottom:1px solid rgba(255,255,255,0.03)}
+.pricing-card li::before{content:'✓';color:var(--neon);margin-right:8px;font-weight:700}
+
+/* Testimonials */
+.testimonial-slider{max-width:650px;margin:0 auto;overflow:hidden}
+.testimonial-track{display:flex;transition:transform .5s}
+.testimonial-item{min-width:100%;padding:40px;text-align:center}
+.testimonial-item p{font-size:1.05rem;color:#bbb;line-height:1.8;font-style:italic;margin-bottom:20px}
+.testimonial-item h4{color:var(--neon);font-size:1rem;font-family:'Space Grotesk',sans-serif}
+.testimonial-item span{color:#666;font-size:.85rem}
+.t-nav{display:flex;justify-content:center;gap:8px;margin-top:15px}
+.t-nav button{width:30px;height:3px;border-radius:2px;border:none;background:rgba(255,255,255,0.1);cursor:pointer;transition:all .3s}
+.t-nav button.active{background:var(--neon);width:45px;box-shadow:var(--glow)}
+
+/* Contact */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.contact-form input,.contact-form textarea,.contact-form select{width:100%;padding:14px 18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:10px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.95rem;margin-bottom:12px;transition:border .3s}
+.contact-form input:focus,.contact-form textarea:focus{outline:none;border-color:var(--neon);box-shadow:0 0 10px rgba(0,255,136,0.1)}
+.contact-form textarea{height:110px;resize:vertical}
+.contact-info{display:flex;flex-direction:column;gap:15px}
+.contact-info-item{display:flex;gap:12px;align-items:flex-start}
+.contact-info-item .icon{width:42px;height:42px;background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.contact-info-item h4{font-size:.9rem;margin-bottom:2px;color:#fff}
+.contact-info-item p,.contact-info-item a{color:#888;font-size:.9rem;text-decoration:none}
+.map-container{margin-top:15px;border-radius:12px;overflow:hidden;height:220px;border:1px solid rgba(0,255,136,0.08)}
+.map-container iframe{width:100%;height:100%;border:0}
+
+footer{background:#060606;padding:35px 5%;text-align:center;border-top:1px solid rgba(0,255,136,0.08)}
+footer .social-links{display:flex;gap:12px;justify-content:center;margin-bottom:12px}
+footer .social-links a{width:38px;height:38px;border:1px solid rgba(255,255,255,0.06);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#aaa;text-decoration:none;transition:all .3s;font-size:1rem}
+footer .social-links a:hover{border-color:var(--neon);color:var(--neon)}
+footer p{color:#444;font-size:.82rem}
+
+.whatsapp-btn{position:fixed;bottom:25px;right:25px;width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:998;box-shadow:0 4px 20px rgba(37,211,102,0.4);transition:transform .3s;text-decoration:none;font-size:1.8rem;color:#fff}
+.whatsapp-btn:hover{transform:scale(1.1)}
+
+@media(max-width:768px){
+.nav-links{display:none}.hamburger{display:flex}
+.about-grid,.contact-grid{grid-template-columns:1fr}
+.stats-grid{grid-template-columns:repeat(2,1fr)}
+.pricing-grid{grid-template-columns:1fr}
+.gallery-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:375px){section{padding:50px 4%}.gallery-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+<div class="logo">YFC <span>GYM</span></div>
+<ul class="nav-links">
+<li><a href="#about">About</a></li>
+<li><a href="#services">Services</a></li>
+<li><a href="#gallery">Gallery</a></li>
+<li><a href="#pricing">Pricing</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+<button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.add('active')"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu">
+<button class="mobile-close" onclick="this.parentElement.classList.remove('active')"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></button>
+<a href="#about" onclick="this.parentElement.classList.remove('active')">About</a>
+<a href="#services" onclick="this.parentElement.classList.remove('active')">Services</a>
+<a href="#gallery" onclick="this.parentElement.classList.remove('active')">Gallery</a>
+<a href="#pricing" onclick="this.parentElement.classList.remove('active')">Pricing</a>
+<a href="#contact" onclick="this.parentElement.classList.remove('active')">Contact</a>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+<div class="hero-slide active">
+<img src="https://images.pexels.com/photos/3917686/pexels-photo-3917686.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=1400&h=910&fit=crop&auto=compress&cs=tinysrgb" alt="YFC Gym">
+<div class="hero-content">
+<h1>YOUR FITNESS CLUB <span>YOUR RULES</span></h1>
+<p>Singrauli's most futuristic fitness destination. MIFI certified. Results guaranteed.</p>
+<a href="#pricing" class="btn">Start Training</a>
+</div>
+</div>
+<div class="hero-slide">
+<img src="https://images.pexels.com/photos/841130/pexels-photo-841130.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=1400&h=910&fit=crop&auto=compress&cs=tinysrgb" alt="Equipment">
+<div class="hero-content">
+<h1>NEXT LEVEL <span>FITNESS</span></h1>
+<p>State-of-the-art equipment. Certified trainers. Neon energy.</p>
+<a href="#services" class="btn">Explore</a>
+</div>
+</div>
+<div class="hero-dots">
+<span class="active" onclick="goSlide(0)"></span>
+<span onclick="goSlide(1)"></span>
+</div>
+</section>
+
+<!-- About -->
+<section id="about">
+<div class="container about-grid">
+<div class="about-img">
+<img src="https://images.pexels.com/photos/3916766/pexels-photo-3916766.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=700&h=455&fit=crop&auto=compress&cs=tinysrgb" alt="Meraj Sheikh">
+</div>
+<div class="about-text">
+<h2>Meet <span>Meraj Sheikh</span></h2>
+<p>Founder of YFC Gym — Yusuf Fitness Club — in Waidhan, Singrauli. A MIFI Academy certified fitness professional who turned his passion for fitness into Singrauli's premier training facility.</p>
+<p>With cutting-edge equipment and a team of certified trainers, YFC Gym delivers results through science-backed training methods and personalized attention.</p>
+<div class="cert-badge"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><circle cx="12" cy="15" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 6l-2-4h12l-2 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><text x="12" y="19" text-anchor="middle" font-size="7" fill="currentColor">1</text></svg> MIFI Academy Certified Trainers</div>
+</div>
+</div>
+</section>
+
+<!-- Services -->
+<section id="services" style="background:rgba(255,255,255,0.01)">
+<div class="container">
+<h2 class="section-title">Our <span>Services</span></h2>
+<div class="neon-line"></div>
+<p class="section-sub">Everything you need to level up your fitness game</p>
+<div class="services-grid">
+<div class="service-card"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><circle cx="12" cy="5" r="2"/><path d="M7 12h10M9 9v6m6-6v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><rect x="2" y="10" width="2" height="4" rx="1"/><rect x="20" y="10" width="2" height="4" rx="1"/><rect x="4" y="11" width="3" height="2" rx="0.5"/><rect x="17" y="11" width="3" height="2" rx="0.5"/></svg>️</div><h3>Gym</h3><p>Full-floor gym with premium machines and free weights.</p></div>
+<div class="service-card"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"/></svg></div><h3>CrossFit</h3><p>High-intensity functional training for total-body fitness.</p></div>
+<div class="service-card"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>️‍<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><path d="M12 2c0 0-4 4-4 9a4 4 0 0 0 8 0c0-2-1-4-1-4s-1 2-2 2c0-2 1-5-1-7z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></div><h3>Cardio</h3><p>Modern cardio zone with treadmills, bikes, and more.</p></div>
+<div class="service-card"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><path d="M12 2c-2 0-4 1-5 3L4 9c-1 2 0 4 2 4h1v5h10v-5h1c2 0 3-2 2-4l-3-4c-1-2-3-3-5-3z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></div><h3>Strength Training</h3><p>Progressive overload programs for max gains.</p></div>
+<div class="service-card"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><path d="M12 2c0 0-4 4-4 9a4 4 0 0 0 8 0c0-2-1-4-1-4s-1 2-2 2c0-2 1-5-1-7z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></div><h3>Fat Loss</h3><p>Targeted programs for sustainable fat loss.</p></div>
+<div class="service-card"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="16,7 22,7 22,13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Muscle Gain</h3><p>Hypertrophy-focused training for size and strength.</p></div>
+<div class="service-card"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="2"/></svg></div><h3>Personal Training</h3><p>1-on-1 coaching with MIFI certified trainers.</p></div>
+</div>
+</div>
+</section>
+
+<!-- Transformations -->
+<section>
+<div class="container">
+<h2 class="section-title">Real <span>Transformations</span></h2>
+<div class="neon-line"></div>
+<p class="section-sub">Our members' incredible journeys</p>
+<div class="transform-grid">
+<div class="transform-card">
+<div class="transform-imgs">
+<img src="https://images.pexels.com/photos/116077/pexels-photo-116077.jpeg?auto=compress&cs=tinysrgb&h=350&w=400&h=260&fit=crop&auto=compress&cs=tinysrgb" alt="Before">
+<img src="https://images.pexels.com/photos/7811532/pexels-photo-7811532.jpeg?auto=compress&cs=tinysrgb&h=350&w=400&h=260&fit=crop&auto=compress&cs=tinysrgb" alt="After">
+</div>
+<div class="info"><h4>12 Week Transformation</h4><p>Lost 18kg • Gained confidence</p></div>
+</div>
+<div class="transform-card">
+<div class="transform-imgs">
+<img src="https://images.pexels.com/photos/4720767/pexels-photo-4720767.jpeg?auto=compress&cs=tinysrgb&h=350&w=400&h=260&fit=crop&auto=compress&cs=tinysrgb" alt="Before">
+<img src="https://images.pexels.com/photos/4853331/pexels-photo-4853331.jpeg?auto=compress&cs=tinysrgb&h=350&w=400&h=260&fit=crop&auto=compress&cs=tinysrgb" alt="After">
+</div>
+<div class="info"><h4>16 Week Transformation</h4><p>Gained 10kg muscle • Competition ready</p></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Equipment -->
+<section style="background:rgba(255,255,255,0.01)">
+<div class="container">
+<h2 class="section-title">Equipment <span>Showcase</span></h2>
+<div class="neon-line"></div>
+<p class="section-sub">Premium equipment for premium results</p>
+<div class="equip-grid">
+<div class="equip-item"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><circle cx="12" cy="5" r="2"/><path d="M7 12h10M9 9v6m6-6v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><rect x="2" y="10" width="2" height="4" rx="1"/><rect x="20" y="10" width="2" height="4" rx="1"/><rect x="4" y="11" width="3" height="2" rx="0.5"/><rect x="17" y="11" width="3" height="2" rx="0.5"/></svg>️</div><h4>Power Racks</h4></div>
+<div class="equip-item"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><path d="M12 3a4 4 0 0 1 4 4v8a5 5 0 0 1-10 0V7a4 4 0 0 1 4-4z" fill="none" stroke="currentColor" stroke-width="1.8"/><line x1="10" y1="12" x2="14" y2="12" stroke="currentColor" stroke-width="1.5"/></svg></div><h4>Leg Press</h4></div>
+<div class="equip-item"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><polyline points="1,4 1,10 7,10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.51 15a9 9 0 1 0 .49-4.86L1 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h4>Cable Machines</h4></div>
+<div class="equip-item"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><circle cx="13" cy="4" r="2"/><path d="M9 20l2-5 3 2 2-8M7 11l2-3 3 1 2-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h4>Treadmills</h4></div>
+<div class="equip-item"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><circle cx="5" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="19" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="6" r="2"/><path d="M12 8l-4 4h8M12 8l3 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h4>Exercise Bikes</h4></div>
+<div class="equip-item"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><path d="M12 2c-2 0-4 1-5 3L4 9c-1 2 0 4 2 4h1v5h10v-5h1c2 0 3-2 2-4l-3-4c-1-2-3-3-5-3z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></div><h4>Dumbbells</h4></div>
+<div class="equip-item"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><line x1="12" y1="3" x2="12" y2="21" stroke="currentColor" stroke-width="2"/><path d="M3 6l4 8H3z M21 6l-4 8h4z" fill="currentColor"/><line x1="4" y1="6" x2="20" y2="6" stroke="currentColor" stroke-width="1.8"/></svg>️</div><h4>Smith Machine</h4></div>
+<div class="equip-item"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="2"/></svg></div><h4>Functional Zone</h4></div>
+</div>
+</div>
+</section>
+
+<!-- Gallery -->
+<section id="gallery">
+<div class="container">
+<h2 class="section-title">The <span>Gallery</span></h2>
+<div class="neon-line"></div>
+<div class="gallery-tabs">
+<button class="gallery-tab active" onclick="switchGallery('gym')">Gym Floor</button>
+<button class="gallery-tab" onclick="switchGallery('training')">Training</button>
+<button class="gallery-tab" onclick="switchGallery('vibes')">Vibes</button>
+</div>
+<div class="gallery-content gallery-grid active" data-tab="gym">
+<img src="https://images.pexels.com/photos/4853277/pexels-photo-4853277.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=600&h=390&fit=crop&auto=compress&cs=tinysrgb" alt="">
+<img src="https://images.pexels.com/photos/4720792/pexels-photo-4720792.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=600&h=390&fit=crop&auto=compress&cs=tinysrgb" alt="">
+<img src="https://images.pexels.com/photos/4944004/pexels-photo-4944004.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=600&h=390&fit=crop&auto=compress&cs=tinysrgb" alt="">
+<img src="https://images.pexels.com/photos/1092877/pexels-photo-1092877.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=600&h=390&fit=crop&auto=compress&cs=tinysrgb" alt="">
+<img src="https://images.pexels.com/photos/7674492/pexels-photo-7674492.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=600&h=390&fit=crop&auto=compress&cs=tinysrgb" alt="">
+<img src="https://images.pexels.com/photos/4720793/pexels-photo-4720793.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=600&h=390&fit=crop&auto=compress&cs=tinysrgb" alt="">
+</div>
+<div class="gallery-content gallery-grid" data-tab="training">
+<img src="https://images.pexels.com/photos/4720790/pexels-photo-4720790.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=600&h=390&fit=crop&auto=compress&cs=tinysrgb" alt="">
+<img src="https://images.pexels.com/photos/7811528/pexels-photo-7811528.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=600&h=390&fit=crop&auto=compress&cs=tinysrgb" alt="">
+<img src="https://images.pexels.com/photos/4720794/pexels-photo-4720794.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=600&h=390&fit=crop&auto=compress&cs=tinysrgb" alt="">
+<img src="https://images.pexels.com/photos/116078/pexels-photo-116078.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=600&h=390&fit=crop&auto=compress&cs=tinysrgb" alt="">
+</div>
+<div class="gallery-content gallery-grid" data-tab="vibes">
+<img src="https://images.pexels.com/photos/1552249/pexels-photo-1552249.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=600&h=390&fit=crop&auto=compress&cs=tinysrgb" alt="">
+<img src="https://images.pexels.com/photos/4720782/pexels-photo-4720782.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=600&h=390&fit=crop&auto=compress&cs=tinysrgb" alt="">
+<img src="https://images.pexels.com/photos/5327472/pexels-photo-5327472.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=600&h=390&fit=crop&auto=compress&cs=tinysrgb" alt="">
+<img src="https://images.pexels.com/photos/949134/pexels-photo-949134.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&w=600&h=390&fit=crop&auto=compress&cs=tinysrgb" alt="">
+</div>
+</div>
+</section>
+
+<!-- Stats -->
+<section class="stats-section">
+<div class="container">
+<div class="stats-grid">
+<div class="stat-item"><h3 class="counter" data-target="3000">0</h3><p>Members</p></div>
+<div class="stat-item"><h3 class="counter" data-target="3">0</h3><p>Years Strong</p></div>
+<div class="stat-item"><h3 class="counter" data-target="30">0</h3><p>Equipment</p></div>
+<div class="stat-item"><h3 class="counter" data-target="6">0</h3><p>Trainers</p></div>
+</div>
+</div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing">
+<div class="container">
+<h2 class="section-title">Choose Your <span>Plan</span></h2>
+<div class="neon-line"></div>
+<p class="section-sub">Flexible plans for every fitness journey</p>
+<div class="pricing-grid">
+<div class="pricing-card">
+<h3>Starter</h3>
+<div class="price">₹799</div>
+<div class="period">per month</div>
+<ul><li>Full Gym Access</li><li>Locker Facility</li><li>Group Sessions</li></ul>
+<a href="#contact" class="btn" style="width:100%">Get Started</a>
+</div>
+<div class="pricing-card neon">
+<h3>Pro</h3>
+<div class="price">₹1,999</div>
+<div class="period">per quarter</div>
+<ul><li>Everything in Starter</li><li>Personal Training 2x/week</li><li>Diet Planning</li><li>Body Analysis</li></ul>
+<a href="#contact" class="btn" style="width:100%">Get Started</a>
+</div>
+<div class="pricing-card">
+<h3>Elite</h3>
+<div class="price">₹5,999</div>
+<div class="period">per year</div>
+<ul><li>Everything in Pro</li><li>Unlimited PT</li><li>Supplement Guidance</li><li>Free Merch</li><li>Guest Passes</li></ul>
+<a href="#contact" class="btn" style="width:100%">Get Started</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Testimonials -->
+<section style="background:rgba(255,255,255,0.01)">
+<div class="container">
+<h2 class="section-title">Member <span>Stories</span></h2>
+<div class="neon-line"></div>
+<div class="testimonial-slider">
+<div class="testimonial-track">
+<div class="testimonial-item"><p>"YFC completely changed my fitness game. Meraj and his team are incredibly knowledgeable. The neon vibes make every workout electric!"</p><h4>Aditya Kumar</h4><span>Member since 2023</span></div>
+<div class="testimonial-item"><p>"Best gym in Singrauli, no cap. MIFI certified trainers who actually know their stuff. Lost 12kg in 3 months!"</p><h4>Priyanka Verma</h4><span>Member since 2024</span></div>
+<div class="testimonial-item"><p>"The personal training here is on another level. Meraj bhai personally ensures everyone gets results."</p><h4>Ravi Pandey</h4><span>Member since 2023</span></div>
+</div>
+<div class="t-nav">
+<button class="active" onclick="goTestimonial(0)"></button>
+<button onclick="goTestimonial(1)"></button>
+<button onclick="goTestimonial(2)"></button>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+<div class="container">
+<h2 class="section-title">Get In <span>Touch</span></h2>
+<div class="neon-line"></div>
+<p class="section-sub">Ready to start? Drop us a message</p>
+<div class="contact-grid">
+<form class="contact-form" onsubmit="event.preventDefault();alert('Thanks! We\'ll contact you soon.')">
+<input type="text" placeholder="Your Name" required>
+<input type="tel" placeholder="Phone Number" required>
+<input type="email" placeholder="Email (optional)">
+<select><option>Select Goal</option><option>Fat Loss</option><option>Muscle Gain</option><option>CrossFit</option><option>Strength Training</option><option>Personal Training</option><option>General</option></select>
+<textarea placeholder="Your Message"></textarea>
+<button type="submit" class="btn" style="width:100%;cursor:pointer;border-radius:10px">Send Message</button>
+</form>
+<div>
+<div class="contact-info">
+<div class="contact-info-item"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></div><div><h4>Address</h4><p>Waidhan, Singrauli, MP</p></div></div>
+<div class="contact-info-item"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.84 13 19.79 19.79 0 0 1 1.77 4.4 2 2 0 0 1 3.74 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></div><div><h4>Phone</h4><p><a href="tel:6265196428">6265196428</a></p></div></div>
+<div class="contact-info-item"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="13" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></div><div><h4>Instagram</h4><p><a href="https://instagram.com/yfc_gym_waidhan" target="_blank" style="color:var(--neon)">@yfc_gym_waidhan</a></p></div></div>
+<div class="contact-info-item"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></div><div><h4>Owner</h4><p><a href="https://instagram.com/meraj_sheikh_007" target="_blank" style="color:var(--neon)">@meraj_sheikh_007</a></p></div></div>
+</div>
+<div class="map-container">
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3630.0!2d82.67!3d24.1!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDA2JzAwLjAiTiA4MsKwNDAnMTIuMCJF!5e0!3m2!1sen!2sin!4v1" allowfullscreen loading="lazy"></iframe>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+
+  <section id="why-choose-us" style="padding:80px 0">
+    <div class="container" style="max-width:1100px;margin:0 auto;padding:0 20px">
+      <h2 style="text-align:center;font-size:2rem;font-weight:800;margin-bottom:12px">Why <span style="color:var(--accent)">Choose Us</span></h2>
+      <p style="text-align:center;opacity:0.65;margin-bottom:48px;font-size:1rem">Here's what sets us apart from the rest</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px">
+        
+      <div class="why-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:all .3s">
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h4 style="margin:0 0 8px;font-size:1rem;font-weight:700">Expert Trainers</h4>
+        <p style="margin:0;font-size:0.88rem;opacity:0.75;line-height:1.6">Certified fitness professionals with years of experience dedicated to your transformation.</p>
+      </div>
+      <div class="why-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:all .3s">
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h4 style="margin:0 0 8px;font-size:1rem;font-weight:700">Modern Equipment</h4>
+        <p style="margin:0;font-size:0.88rem;opacity:0.75;line-height:1.6">State-of-the-art machines and free weights kept in top condition for your best workout.</p>
+      </div>
+      <div class="why-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:all .3s">
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h4 style="margin:0 0 8px;font-size:1rem;font-weight:700">Flexible Timings</h4>
+        <p style="margin:0;font-size:0.88rem;opacity:0.75;line-height:1.6">Early morning to late evening slots so fitness fits your schedule, not the other way around.</p>
+      </div>
+      <div class="why-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:all .3s">
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h4 style="margin:0 0 8px;font-size:1rem;font-weight:700">Proven Results</h4>
+        <p style="margin:0;font-size:0.88rem;opacity:0.75;line-height:1.6">Thousands of members have achieved their goals — weight loss, muscle gain, and overall wellness.</p>
+      </div>
+      <div class="why-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:all .3s">
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h4 style="margin:0 0 8px;font-size:1rem;font-weight:700">Community Vibe</h4>
+        <p style="margin:0;font-size:0.88rem;opacity:0.75;line-height:1.6">A motivating, supportive environment where everyone pushes each other to be better.</p>
+      </div>
+      <div class="why-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:all .3s">
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h4 style="margin:0 0 8px;font-size:1rem;font-weight:700">Affordable Plans</h4>
+        <p style="margin:0;font-size:0.88rem;opacity:0.75;line-height:1.6">Competitive membership pricing with no hidden fees — quality fitness for every budget.</p>
+      </div>
+      </div>
+    </div>
+  </section>
+  <section id="faq" style="padding:80px 0;background:rgba(255,255,255,0.02)">
+    <div class="container" style="max-width:800px;margin:0 auto;padding:0 20px">
+      <h2 style="text-align:center;font-size:2rem;font-weight:800;margin-bottom:12px">Frequently Asked <span style="color:var(--accent)">Questions</span></h2>
+      <p style="text-align:center;opacity:0.65;margin-bottom:48px;font-size:1rem">Everything you need to know — answered</p>
+      <div class="faq-list">
+        
+      <div class="faq-item" style="border-bottom:1px solid rgba(255,255,255,0.1)">
+        <button onclick="(function(btn){var ans=btn.nextElementSibling;var open=ans.style.maxHeight==='none'||ans.style.maxHeight==='';ans.style.maxHeight=open?'0':'none';btn.style.color=open?'var(--accent)':'';btn.querySelector('.faq-arrow').style.transform=open?'rotate(180deg)':'rotate(0deg)'})(this)" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 0;background:none;border:none;color:inherit;font-size:1rem;font-weight:600;text-align:left;cursor:pointer">
+          What are your gym timings?
+          <span class="faq-arrow" style="display:inline-block;transition:transform .3s;font-size:1.2rem;min-width:20px;text-align:center">&#8964;</span>
+        </button>
+        <div style="max-height:0;overflow:hidden;transition:max-height .4s ease;padding:0 0 0 0">
+          <p style="margin:0 0 20px;opacity:0.75;line-height:1.7;font-size:0.95rem">We are open 7 days a week from 5:30 AM to 10:00 PM. Early morning and late evening slots are available.</p>
+        </div>
+      </div>
+      <div class="faq-item" style="border-bottom:1px solid rgba(255,255,255,0.1)">
+        <button onclick="(function(btn){var ans=btn.nextElementSibling;var open=ans.style.maxHeight==='none'||ans.style.maxHeight==='';ans.style.maxHeight=open?'0':'none';btn.style.color=open?'var(--accent)':'';btn.querySelector('.faq-arrow').style.transform=open?'rotate(180deg)':'rotate(0deg)'})(this)" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 0;background:none;border:none;color:inherit;font-size:1rem;font-weight:600;text-align:left;cursor:pointer">
+          Do you offer personal training?
+          <span class="faq-arrow" style="display:inline-block;transition:transform .3s;font-size:1.2rem;min-width:20px;text-align:center">&#8964;</span>
+        </button>
+        <div style="max-height:0;overflow:hidden;transition:max-height .4s ease;padding:0 0 0 0">
+          <p style="margin:0 0 20px;opacity:0.75;line-height:1.7;font-size:0.95rem">Yes, we have certified personal trainers available for one-on-one sessions tailored to your specific goals.</p>
+        </div>
+      </div>
+      <div class="faq-item" style="border-bottom:1px solid rgba(255,255,255,0.1)">
+        <button onclick="(function(btn){var ans=btn.nextElementSibling;var open=ans.style.maxHeight==='none'||ans.style.maxHeight==='';ans.style.maxHeight=open?'0':'none';btn.style.color=open?'var(--accent)':'';btn.querySelector('.faq-arrow').style.transform=open?'rotate(180deg)':'rotate(0deg)'})(this)" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 0;background:none;border:none;color:inherit;font-size:1rem;font-weight:600;text-align:left;cursor:pointer">
+          Is there a trial pass available?
+          <span class="faq-arrow" style="display:inline-block;transition:transform .3s;font-size:1.2rem;min-width:20px;text-align:center">&#8964;</span>
+        </button>
+        <div style="max-height:0;overflow:hidden;transition:max-height .4s ease;padding:0 0 0 0">
+          <p style="margin:0 0 20px;opacity:0.75;line-height:1.7;font-size:0.95rem">Yes, we offer a 3-day free trial pass for new members. Visit us and experience the facilities firsthand.</p>
+        </div>
+      </div>
+      <div class="faq-item" style="border-bottom:1px solid rgba(255,255,255,0.1)">
+        <button onclick="(function(btn){var ans=btn.nextElementSibling;var open=ans.style.maxHeight==='none'||ans.style.maxHeight==='';ans.style.maxHeight=open?'0':'none';btn.style.color=open?'var(--accent)':'';btn.querySelector('.faq-arrow').style.transform=open?'rotate(180deg)':'rotate(0deg)'})(this)" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 0;background:none;border:none;color:inherit;font-size:1rem;font-weight:600;text-align:left;cursor:pointer">
+          What equipment is available?
+          <span class="faq-arrow" style="display:inline-block;transition:transform .3s;font-size:1.2rem;min-width:20px;text-align:center">&#8964;</span>
+        </button>
+        <div style="max-height:0;overflow:hidden;transition:max-height .4s ease;padding:0 0 0 0">
+          <p style="margin:0 0 20px;opacity:0.75;line-height:1.7;font-size:0.95rem">We have state-of-the-art cardio machines, free weights, resistance equipment, and dedicated areas for group fitness classes.</p>
+        </div>
+      </div>
+      <div class="faq-item" style="border-bottom:1px solid rgba(255,255,255,0.1)">
+        <button onclick="(function(btn){var ans=btn.nextElementSibling;var open=ans.style.maxHeight==='none'||ans.style.maxHeight==='';ans.style.maxHeight=open?'0':'none';btn.style.color=open?'var(--accent)':'';btn.querySelector('.faq-arrow').style.transform=open?'rotate(180deg)':'rotate(0deg)'})(this)" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 0;background:none;border:none;color:inherit;font-size:1rem;font-weight:600;text-align:left;cursor:pointer">
+          Can I pause my membership?
+          <span class="faq-arrow" style="display:inline-block;transition:transform .3s;font-size:1.2rem;min-width:20px;text-align:center">&#8964;</span>
+        </button>
+        <div style="max-height:0;overflow:hidden;transition:max-height .4s ease;padding:0 0 0 0">
+          <p style="margin:0 0 20px;opacity:0.75;line-height:1.7;font-size:0.95rem">Yes, memberships can be paused for medical reasons or extended travel with prior notice.</p>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+<div class="social-links">
+<a href="https://instagram.com/yfc_gym_waidhan" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="13" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></a>
+<a href="tel:6265196428"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.84 13 19.79 19.79 0 0 1 1.77 4.4 2 2 0 0 1 3.74 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></a>
+<a href="https://wa.me/916265196428" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></a>
+</div>
+<p>© 2026 YFC Gym — Yusuf Fitness Club, Singrauli. All rights reserved.</p>
+<p style='text-align:center;padding:16px;font-size:13px;color:#888;border-top:1px solid #eee;margin-top:20px'>&copy; 2026 Yfc gym singrauli &middot; Designed with <span style="color:#e74c3c">&hearts;</span> by <a href="https://vedamvision.com" target="_blank" style="color:inherit;text-decoration:underline">Vedamvision</a> &middot; <a href="https://wa.me/918889121215?text=Hi%2C+I+want+a+website+like+this" target="_blank" style="color:inherit;text-decoration:underline">Get yours Website</a></p></footer>
+
+<a href="https://wa.me/916265196428" target="_blank" class="whatsapp-btn"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-0.15em"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></a>
+
+<script>
+let currentSlide=0;const slides=document.querySelectorAll('.hero-slide'),dots=document.querySelectorAll('.hero-dots span');
+function goSlide(n){slides[currentSlide].classList.remove('active');dots[currentSlide].classList.remove('active');currentSlide=n;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active')}
+setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);
+
+function switchGallery(tab){document.querySelectorAll('.gallery-content').forEach(g=>g.classList.remove('active'));document.querySelectorAll('.gallery-tab').forEach(t=>t.classList.remove('active'));document.querySelector(`[data-tab="${tab}"]`).classList.add('active');event.target.classList.add('active')}
+
+const counters=document.querySelectorAll('.counter');
+const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){const c=entry.target,t=+c.dataset.target,dur=2000,s=performance.now();const a=now=>{const p=Math.min((now-s)/dur,1);c.textContent=Math.floor(p*t).toLocaleString()+'+';if(p<1)requestAnimationFrame(a)};requestAnimationFrame(a);observer.unobserve(c)}})},{threshold:.5});
+counters.forEach(c=>observer.observe(c));
+
+let ct=0;const trk=document.querySelector('.testimonial-track'),td=document.querySelectorAll('.t-nav button');
+function goTestimonial(n){ct=n;trk.style.transform=`translateX(-${n*100}%)`;td.forEach(d=>d.classList.remove('active'));td[n].classList.add('active')}
+setInterval(()=>goTestimonial((ct+1)%3),4000);
+
+window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>50));
+</script>
+</body>
+</html>
