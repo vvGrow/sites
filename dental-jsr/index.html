@@ -71,6 +71,7 @@ nav.top{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.92);bac
 nav.top .row{display:flex;align-items:center;justify-content:space-between;gap:24px;}
 nav.top .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:20px;color:var(--text);}
 nav.top .brand-mark{width:36px;height:36px;border-radius:10px;background:var(--primary);color:#fff;display:grid;place-items:center;font-weight:900;}
+nav.top .brand .brand-fallback{display:flex;align-items:center;gap:12px;}
 nav.top .brand svg.logo,nav.top .brand .logo-slot svg{height:38px;width:auto;display:block;color:var(--text);}
 nav.top .brand .logo-slot{display:flex;align-items:center;}
 nav.top .brand:has(.logo-slot svg) .brand-fallback{display:none;}
@@ -260,7 +261,7 @@ footer{background:#0e0e10;color:rgba(255,255,255,.78);padding:30px 0 28px;}
 <!-- 1. NAV -->
 <nav class="top">
   <div class="container row">
-    <a href="#" class="brand"><span class="brand-fallback" style="display:flex;align-items:center;gap:12px;"><span class="brand-mark">J</span><span>Jamshedpur Dental Pro</span></span><span class="logo-slot"></span></a>
+    <a href="#" class="brand"><span class="brand-fallback"><span class="brand-mark">J</span><span>Jamshedpur Dental Pro</span></span><span class="logo-slot"></span></a>
     <ul>
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
